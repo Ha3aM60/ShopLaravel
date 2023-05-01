@@ -1,25 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
+import './components/home/containers/default/DefaultHeader.css'
 import './App.css';
+import HomePage from './components/home/HomePage';
+import DefaultHeader from './components/home/containers/default/DefaultHeader';
+import CategoryCreatePage from './components/category/create/CategoryCreatePage';
+import { Route, Routes } from 'react-router-dom';
+import DefaultLayout from './components/home/containers/default/DefaultLayout';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      
+      <Routes>
+        <Route path="/" element ={<DefaultLayout/>}>
+          <Route index element={<HomePage/>}/>
+          <Route path ="categories/create" element={<CategoryCreatePage/>}/>
+        </Route>
+      </Routes>
+
+      
+    </>
   );
 }
 
