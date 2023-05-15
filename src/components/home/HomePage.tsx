@@ -1,8 +1,9 @@
-import axios from "axios";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { ICategoryItem, ICategoryResponse, ICategorySearch } from "./types";
+import http from "../../http";
+import { APP_ENV } from "../../env";
 
 const HomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,8 +21,9 @@ const HomePage = () => {
   });
 
   useEffect(() => {
-    axios
-      .get<ICategoryResponse>("http://127.0.0.1:8000/api/category", {
+    /* використання змінної з силкою БД */
+    http
+      .get<ICategoryResponse>(`api/category`, {
         params: search,
       })
       .then((resp) => {
@@ -87,7 +89,8 @@ const HomePage = () => {
 
   const dataView = data.map(category =>
     <tr key={category.id}>
-      <th><img src={category.image} alt='фотка' width={75}></img></th>
+      {/* використання змінної з силкою БД */}
+      <th><img src={`${APP_ENV.BASE_URL}storage/uploads/${category.image}`} alt="Фотка" width={50} /></th>
       <td>{category.name}</td>
       <td>{category.description}</td>
     </tr>

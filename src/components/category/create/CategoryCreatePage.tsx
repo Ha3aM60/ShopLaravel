@@ -3,8 +3,8 @@ import { ICategoryCreate } from "./types";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import classNames from "classnames";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import http from "../../../http";
 
 const CategoryCreatePage = () => {
 
@@ -12,7 +12,7 @@ const CategoryCreatePage = () => {
 
   const initValues: ICategoryCreate = {
     name: "",
-    image: "",
+    image: null,
     description: ""
   };
 
@@ -23,10 +23,14 @@ const CategoryCreatePage = () => {
 
   
   const onSubmitFormikData = (values: ICategoryCreate) => {
-    //console.log("Formik send data", values);
-    axios.post("http://127.0.0.1:8000/api/category", values)
+    console.log("Formik send data", values);
+    http.post("api/category", values, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
       .then(resp => {
-        console.log("Create date in server", resp);
+        //console.log("Create date in server", resp);
         navigator("/");
       });
   }
@@ -36,6 +40,13 @@ const formik = useFormik({
   validationSchema: createSchema,
   onSubmit: onSubmitFormikData
 });
+
+const onImageChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  if (e.target.files != null) {
+    const file =  e.target.files[0];
+    formik.setFieldValue(e.target.name, file);
+  }
+};
 
 const { values, errors, touched, handleSubmit, handleChange } = formik;
 
@@ -63,12 +74,11 @@ return (
           Image URL
         </label>
         <input
-          type="text"
+          type="file"
           className="form-control"
           id="image"
           name="image"
-          value={values.image}
-          onChange={handleChange}
+          onChange={onImageChangeHandler}
         />
       </div>
 
