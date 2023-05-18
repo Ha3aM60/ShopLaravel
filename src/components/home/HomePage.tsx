@@ -1,9 +1,11 @@
 import classNames from "classnames";
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ICategoryItem, ICategoryResponse, ICategorySearch } from "./types";
 import http from "../../http";
 import { APP_ENV } from "../../env";
+import Modal from 'react-modal';
+
 
 const HomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,6 +22,8 @@ const HomePage = () => {
     last_page: 0,
   });
 
+
+  /* get запрос */
   useEffect(() => {
     /* використання змінної з силкою БД */
     http
@@ -36,7 +40,7 @@ const HomePage = () => {
 
 
 
-
+  /* пагінація */
   const { data, last_page, current_page, total } = category;
 
   const maxButtons = 10;
@@ -87,14 +91,57 @@ const HomePage = () => {
     </ul>
   );
 
+  /* кінець пагінації */
+
+
+  /* вивід елементів */
   const dataView = data.map(category =>
     <tr key={category.id}>
       {/* використання змінної з силкою БД */}
       <th><img src={`${APP_ENV.BASE_URL}storage/uploads/${category.image}`} alt="Фотка" width={50} /></th>
       <td>{category.name}</td>
       <td>{category.description}</td>
+      <button onClick={() => showDeleteModal(category.name)} className="btn"><img src="Close_16px.png" alt="del" /></button>
+      <Link className="btn" to={`/categories/${category.name}/edit`}><img width={40} src="edit_16px.png" alt="del" /></Link>
     </tr>
   );
+
+  const [showModal, setShowModal] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState(null);
+  const [nameToDelete, setNameToDelete] = useState('');
+
+  /* відкриття модального вікна для видалення */
+  const showDeleteModal = (name : string) => {
+    setNameToDelete(name);
+    setShowModal(true);
+  };
+
+  /* закриття модального вікна без видалення */
+  const handleCancelDelete = () => {
+    setShowModal(false);
+    setNameToDelete('');
+  };
+  /* видалення елемента */
+  const handleConfirmDelete = () => {
+    http
+      .delete(`api/category/${nameToDelete}`)
+      .then((response) => {
+        console.log("Deleted");
+        setShowModal(false);
+        setNameToDelete('');
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+        setShowModal(false);
+        setNameToDelete('');
+      });
+  };
+
+
+  
+
+
 
   return (
     <>
@@ -115,6 +162,20 @@ const HomePage = () => {
       <nav aria-label="Page navigation example">
         {pagination}
       </nav>
+
+      <Modal
+        isOpen={showModal}
+        onRequestClose={handleCancelDelete}
+        ariaHideApp={false}
+      >
+        <h3>Confirm Deletion</h3>
+        <p>Are you sure you want to delete the category?</p>
+        <div>
+          <button onClick={handleConfirmDelete} className="btn btn-danger">Delete</button>
+          <button onClick={handleCancelDelete} className="btn btn-secondary">Cancel</button>
+        </div>
+      </Modal>
+
     </>
   );
 };
