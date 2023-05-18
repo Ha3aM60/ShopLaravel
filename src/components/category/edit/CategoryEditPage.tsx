@@ -16,7 +16,6 @@ const CategoryEditPage = () => {
     });
 
     useEffect(() => {
-        // Отримати дані про категорію з сервера за її ідентифікатором
         http.get(`/api/category/${id}`)
             .then(response => {
                 setCategory(response.data);
@@ -37,7 +36,6 @@ const CategoryEditPage = () => {
       const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
-        // Відправити оновлені дані про категорію на сервер
         http.put(`/api/category/${id}`, category)
           .then(response => {
             console.log("Category updated successfully");
