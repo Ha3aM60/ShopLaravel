@@ -1,9 +1,25 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { AuthUserActionType, IAuthUser } from "../../../auth/types";
+import { useDispatch } from "react-redux";
+import http from "../../../../http";
 
 const DefaultHeader = () => {
-    return (
-        <>
-            <header data-bs-theme="dark">
+  const dispatch = useDispatch();
+
+  const { isAuth, user } = useSelector((store: any) => store.auth as IAuthUser);
+
+  const logout = () => {
+    delete http.defaults.headers.common["Authorization"];
+    localStorage.removeItem("token");
+    dispatch({ type: AuthUserActionType.LOGOUT_USER });
+  }
+
+  console.log("is Auth:", isAuth);
+
+  return (
+    <>
+      <header data-bs-theme="dark">
         <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
           <div className="container">
             <Link className="navbar-brand" to="/">
@@ -33,22 +49,43 @@ const DefaultHeader = () => {
                   </a>
                 </li>
               </ul>
-              <form className="d-flex" role="search">
-                <input
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-                <button className="btn btn-outline-primary" type="submit">
-                  Search
-                </button>
-              </form>
+              <ul className="navbar-nav">
+                {isAuth ? (
+                  <>
+                    <li className="nav-item">
+                      <Link className="nav-link" aria-current="page" to="/profile">
+                        {user?.email}
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className="nav-link" aria-current="page" to="/logout" onClick={(e) => {
+                        e.preventDefault();
+                        logout();
+                      }}>
+                        Exit
+                      </Link>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li className="nav-item">
+                      <Link className="nav-link" aria-current="page" to="/register">
+                        Sign up
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className="nav-link" aria-current="page" to="/login">
+                        Sign in
+                      </Link>
+                    </li>
+                  </>
+                )}
+              </ul>
             </div>
           </div>
         </nav>
       </header>
-        </>
-    );
+    </>
+  );
 }
 export default DefaultHeader

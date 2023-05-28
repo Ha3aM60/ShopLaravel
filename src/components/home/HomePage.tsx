@@ -5,6 +5,8 @@ import { ICategoryItem, ICategoryResponse, ICategorySearch } from "./types";
 import http from "../../http";
 import { APP_ENV } from "../../env";
 import Modal from 'react-modal';
+import { useDispatch } from "react-redux";
+import { AuthUserActionType } from "../auth/types";
 
 
 const HomePage = () => {
@@ -137,10 +139,17 @@ const HomePage = () => {
         setNameToDelete('');
       });
   };
+  const dispatch = useDispatch();
 
+  /* const loginUser = () => {
+    console.log("Вхід у систему");
+    dispatch({type: AuthUserActionType.LOGIN_USER});
+  }
 
-  
-
+  const logoutUser = () => {
+    console.log("Вийти із системи");
+    dispatch({type: AuthUserActionType.LOGOUT_USER});
+  } */
 
 
   return (
