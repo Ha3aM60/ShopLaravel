@@ -18,7 +18,7 @@ const LoginPage = () => {
         email: "",
         password: "",
     };
-
+    
     const [message, setMessage] = useState<string>("");
 
     const createSchema = yup.object({
@@ -36,6 +36,7 @@ const LoginPage = () => {
             const { access_token } = result.data;
             const user = jwtDecode(access_token) as IUser;
             console.log(user);
+            
             localStorage.token = access_token;
             http.defaults.headers.common['Authorization'] = `Bearer ${localStorage.token}`;
             dispatch({
@@ -49,6 +50,7 @@ const LoginPage = () => {
         catch (error) {
             console.log("Error auth", error);
         }
+        
     }
 
     const formik = useFormik({

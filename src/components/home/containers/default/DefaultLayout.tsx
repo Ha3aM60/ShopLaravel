@@ -2,12 +2,17 @@ import { Outlet } from "react-router-dom";
 import DefaultHeader from "./DefaultHeader";
 
 const DefaultLayout = () => {
-    return(
+ 
+    return (
         <>
-            <DefaultHeader/>
+
+            <DefaultHeader />
+
             <div className="container">
-                <Outlet/>
+                <Outlet />
             </div>
+
+
         </>
     );
 }

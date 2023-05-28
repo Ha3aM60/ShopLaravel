@@ -24,9 +24,10 @@ const HomePage = () => {
     last_page: 0,
   });
 
-
+  const [isLoading, setIsLoading] = useState(false);
   /* get запрос */
   useEffect(() => {
+    setIsLoading(true);
     /* використання змінної з силкою БД */
     http
       .get<ICategoryResponse>(`api/category`, {
@@ -34,9 +35,11 @@ const HomePage = () => {
       })
       .then((resp) => {
         setCategory(resp.data);
+        setIsLoading(false);
       })
       .catch((bad) => {
         console.log("Bad request", bad);
+        setIsLoading(false);
       });
   }, [search]);
 
@@ -154,8 +157,8 @@ const HomePage = () => {
 
   return (
     <>
+      
       <h1 className="text-center">Categories list</h1>
-      <Link to="/categories/create" className="btn btn-primary">Add</Link>
       <table className="table">
         <thead>
           <tr>
@@ -168,6 +171,7 @@ const HomePage = () => {
           {dataView}
         </tbody>
       </table>
+      {isLoading && <h1 className="text-center text-primary">Category is Loading...</h1>}
       <nav aria-label="Page navigation example">
         {pagination}
       </nav>
@@ -190,3 +194,5 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+

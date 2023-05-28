@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { AuthUserActionType, IAuthUser } from "../../../auth/types";
 import { useDispatch } from "react-redux";
 import http from "../../../../http";
+import { APP_ENV } from "../../../../env";
+import { useState } from "react";
 
 const DefaultHeader = () => {
   const dispatch = useDispatch();
@@ -14,8 +16,10 @@ const DefaultHeader = () => {
     localStorage.removeItem("token");
     dispatch({ type: AuthUserActionType.LOGOUT_USER });
   }
+  
 
   console.log("is Auth:", isAuth);
+  console.log("is user:", user);
 
   return (
     <>
@@ -52,6 +56,9 @@ const DefaultHeader = () => {
               <ul className="navbar-nav">
                 {isAuth ? (
                   <>
+                    <li className="nav-item">
+                      
+                    </li>
                     <li className="nav-item">
                       <Link className="nav-link" aria-current="page" to="/profile">
                         {user?.email}
