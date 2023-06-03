@@ -16,7 +16,7 @@ const DefaultHeader = () => {
     localStorage.removeItem("token");
     dispatch({ type: AuthUserActionType.LOGOUT_USER });
   }
-  
+
 
   console.log("is Auth:", isAuth);
   console.log("is user:", user);
@@ -57,7 +57,7 @@ const DefaultHeader = () => {
                 {isAuth ? (
                   <>
                     <li className="nav-item">
-                      
+                      <img src={`${APP_ENV.BASE_URL}storage/uploads/${user?.image}`} alt="Фотка" width={50} />
                     </li>
                     <li className="nav-item">
                       <Link className="nav-link" aria-current="page" to="/profile">

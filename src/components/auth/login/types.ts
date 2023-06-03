@@ -10,5 +10,5 @@ export interface ILoginResult {
 export interface IUser {
     email: string,
     name: string,
-    image: File|null
+    image: string
 }

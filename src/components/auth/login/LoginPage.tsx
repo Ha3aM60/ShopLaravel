@@ -42,7 +42,8 @@ const LoginPage = () => {
             dispatch({
                 type: AuthUserActionType.LOGIN_USER, payload: {
                     email: user.email,
-                    name: user.name
+                    name: user.name,
+                    image: user.image
                 }
             });
             navigator("/");
