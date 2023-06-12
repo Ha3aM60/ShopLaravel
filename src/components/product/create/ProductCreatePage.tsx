@@ -5,6 +5,7 @@ import classNames from "classnames";
 import { useEffect, useState } from "react";
 import http from "../../../http";
 import { APP_ENV } from "../../../env";
+import { Editor } from "@tinymce/tinymce-react";
 
 
 const ProductCreatePage = () => {
@@ -140,7 +141,7 @@ const ProductCreatePage = () => {
             <div className="invalid-feedback">{errors.price}</div>
           )}
         </div>
-        <div className="mb-3">
+        {/* <div className="mb-3">
           <label htmlFor="description" className="form-label">
             Description
           </label>
@@ -157,7 +158,29 @@ const ProductCreatePage = () => {
           {errors.description && touched.description && (
             <div className="invalid-feedback">{errors.description}</div>
           )}
-        </div>
+        </div> */}
+
+        <Editor
+          initialValue={values.description}
+          tagName="description"
+          apiKey="firtbmm61vhnhh7a01fooin2v4gawzomt4kltil8blm7gurl"
+          id="description"
+          init={{
+            height: 300,
+            menubar: false,
+            plugins: [
+              'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
+              'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
+              'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
+           ],
+           toolbar: 'undo redo | casechange blocks | bold italic backcolor | ' +
+              'alignleft aligncenter alignright alignjustify | ' +
+              'bullist numlist checklist outdent indent | removeformat | a11ycheck code table help',
+           content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+          }}
+          onEditorChange={(content) => setFieldValue("description", content)}
+        />
+
         <div className="mb-3">
           <div className="row">
             <div className="col-md-3">
