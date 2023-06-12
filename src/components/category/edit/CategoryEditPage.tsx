@@ -1,8 +1,9 @@
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import http from "../../../http";
 import { ICategoryItem } from "./types";
+import { useFormik } from "formik";
 
 const CategoryEditPage = () => {
 
@@ -45,7 +46,12 @@ const CategoryEditPage = () => {
             console.log(error);
           });
       };
-
+      const onImageChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files != null) {
+          const file =  e.target.files[0];
+          category.image = file;
+        }
+      };
 
     return (
         <>
@@ -75,7 +81,7 @@ const CategoryEditPage = () => {
                         className="form-control"
                         id="image"
                         name="image"
-                        onChange={handleInputChange}
+                        onChange={onImageChangeHandler}
                     />
                 </div>
 

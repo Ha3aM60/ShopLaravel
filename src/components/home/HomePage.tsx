@@ -7,6 +7,7 @@ import { APP_ENV } from "../../env";
 import Modal from 'react-modal';
 import { useDispatch } from "react-redux";
 import { AuthUserActionType } from "../auth/types";
+import { number } from "yup";
 
 
 const HomePage = () => {
@@ -103,28 +104,28 @@ const HomePage = () => {
   const dataView = data.map(category =>
     <tr key={category.id}>
       {/* використання змінної з силкою БД */}
-      <th><img src={`${APP_ENV.BASE_URL}storage/uploads/${category.image}`} alt="Фотка" width={50} /></th>
+      <th><img src={`${APP_ENV.BASE_URL}uploads/50_${category.image}`} alt="Фотка" width={50} /></th>
       <td>{category.name}</td>
       <td>{category.description}</td>
-      <button onClick={() => showDeleteModal(category.name)} className="btn"><img src="Close_16px.png" alt="del" /></button>
-      <Link className="btn" to={`/categories/${category.name}/edit`}><img width={40} src="edit_16px.png" alt="del" /></Link>
+      <button onClick={() => showDeleteModal(category.id)} className="btn"><img src="Close_16px.png" alt="del" /></button>
+      <Link className="btn" to={`/categories/${category.id}/edit`}><img width={40} src="edit_16px.png" alt="del" /></Link>
     </tr>
   );
 
   const [showModal, setShowModal] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState(null);
-  const [nameToDelete, setNameToDelete] = useState('');
+  const [nameToDelete, setNameToDelete] = useState(Number);
 
   /* відкриття модального вікна для видалення */
-  const showDeleteModal = (name : string) => {
-    setNameToDelete(name);
+  const showDeleteModal = (id : number) => {
+    setNameToDelete(id);
     setShowModal(true);
   };
 
   /* закриття модального вікна без видалення */
   const handleCancelDelete = () => {
     setShowModal(false);
-    setNameToDelete('');
+    setNameToDelete(0);
   };
   /* видалення елемента */
   const handleConfirmDelete = () => {
@@ -133,13 +134,13 @@ const HomePage = () => {
       .then((response) => {
         console.log("Deleted");
         setShowModal(false);
-        setNameToDelete('');
+        setNameToDelete(0);
         window.location.reload();
       })
       .catch((error) => {
         console.log(error);
         setShowModal(false);
-        setNameToDelete('');
+        setNameToDelete(0);
       });
   };
   const dispatch = useDispatch();

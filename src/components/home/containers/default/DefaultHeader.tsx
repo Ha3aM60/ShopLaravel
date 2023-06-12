@@ -48,16 +48,16 @@ const DefaultHeader = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link " href="#">
-                    Link
-                  </a>
+                  <Link className="nav-link active" aria-current="page" to="/products/create">
+                    Add products
+                  </Link>
                 </li>
               </ul>
               <ul className="navbar-nav">
                 {isAuth ? (
                   <>
                     <li className="nav-item">
-                      <img src={`${APP_ENV.BASE_URL}storage/uploads/${user?.image}`} alt="Фотка" width={50} />
+                      <img src={`${APP_ENV.BASE_URL}storage/uploads/${user?.image}`} alt="Фотка" width={40} />
                     </li>
                     <li className="nav-item">
                       <Link className="nav-link" aria-current="page" to="/profile">

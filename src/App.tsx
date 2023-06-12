@@ -9,6 +9,7 @@ import DefaultLayout from './components/home/containers/default/DefaultLayout';
 import CategoryEditPage from './components/category/edit/CategoryEditPage';
 import LoginPage from './components/auth/login/LoginPage';
 import RegisterPage from './components/auth/register/RegisterPage';
+import ProductCreatePage from './components/product/create/ProductCreatePage';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route index element={<HomePage/>}/>
           <Route path ="categories/create" element={<CategoryCreatePage/>}/>
           <Route path ="categories/:id/edit" element={<CategoryEditPage/>}/>
+          <Route path ="products/create" element={<ProductCreatePage/>}/>
           <Route path ="login" element={<LoginPage/>}/>
           <Route path ="register" element={<RegisterPage/>}/>
         </Route>

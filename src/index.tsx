@@ -23,7 +23,8 @@ if (localStorage.token) {
   store.dispatch({
     type: AuthUserActionType.LOGIN_USER, payload: {
       email: user.email,
-      name: user.name
+      name: user.name,
+      image: user.image
     } as IUser
   });
 }
@@ -33,9 +34,9 @@ if (localStorage.token) {
 root.render(
   <Provider store={store}>
     <BrowserRouter>
-      <GoogleOAuthProvider clientId="682733847092-m7g59kplvniu1kh87mro4na8bn2l5tpv">
+      
         <App />
-      </GoogleOAuthProvider>
+      
     </BrowserRouter>
   </Provider>
 );
